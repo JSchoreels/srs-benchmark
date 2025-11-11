@@ -4,6 +4,8 @@ import warnings
 import numpy as np
 import scipy
 
+from config import load_config
+
 warnings.filterwarnings('ignore')
 
 
@@ -93,35 +95,25 @@ comparison_name = 'FSRS-6-recency.jsonl'
 baseline_file = results_path + '/' + baseline_name
 comparison_file = results_path + '/' + comparison_name
 
+config = load_config()
 
 # metric = 'RMSE(bins)'  # 'RMSE(bins)', 'LogLoss'
 unweighted = True
 # for metric in ['RMSE(bins)', 'LogLoss']:
 for metric in ['LogLoss']:
-    max_user = 2000
+    max_user = config.max_user_id
 
     dictionary_metric = {}
     dictionary_sizes = {}
     with open(baseline_file, "r") as f:
         data = f.readlines()
-        common_set = set([json.loads(x)["user"] for x in f.readlines() if int(json.loads(x)["user"]) <= max_user])
-
-    last_x = 0
-    for x in common_set:
-        if x > last_x + 1:
-            print(f'User {last_x + 1} is missing')
-        # else:
-        #     print(x, last_x)
-        last_x = x
-    # print('')
-
     data = [json.loads(x) for x in data]
 
     for result in data:
         value = result["metrics"][metric]
         user = result["user"]
         size = result["size"]
-        if len(dictionary_metric) < max_user:
+        if max_user is None or user <= max_user:
             dictionary_metric.update({user: value})
             if unweighted:
                 dictionary_sizes.update({user: 1})
@@ -142,12 +134,27 @@ for metric in ['LogLoss']:
         value = result2["metrics"][metric]
         user = result2["user"]
         size = result2["size"]
-        if len(dictionary_metric2) < max_user:
+        if max_user is None or user <= max_user:
             dictionary_metric2.update({user: value})
             if unweighted:
                 dictionary_sizes2.update({user: 1})
             else:
                 dictionary_sizes2.update({user: size})
+
+    # Find common users between both datasets
+    common_users = set(dictionary_metric.keys()) & set(dictionary_metric2.keys())
+    print(f'Common users: {len(common_users)} (baseline: {len(dictionary_metric)}, comparison: {len(dictionary_metric2)})')
+
+    # Filter to only common users
+    dictionary_metric = {k: v for k, v in dictionary_metric.items() if k in common_users}
+    dictionary_sizes = {k: v for k, v in dictionary_sizes.items() if k in common_users}
+    dictionary_metric2 = {k: v for k, v in dictionary_metric2.items() if k in common_users}
+    dictionary_sizes2 = {k: v for k, v in dictionary_sizes2.items() if k in common_users}
+
+    sorted_dictionary_LogLoss = dict(sorted(dictionary_metric.items()))
+    LogLoss_baseline = list(sorted_dictionary_LogLoss.values())
+    sorted_dictionary_sizes = dict(sorted(dictionary_sizes.items()))
+    sizes = list(sorted_dictionary_sizes.values())
 
     sorted_dictionary_LogLoss2 = dict(sorted(dictionary_metric2.items()))
     LogLoss_comparison = list(sorted_dictionary_LogLoss2.values())

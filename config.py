@@ -47,12 +47,11 @@ def create_parser():
     )
     parser.add_argument("--dev", action="store_true", help="for local development")
 
-    # Add this line:
     parser.add_argument(
         "--max-user-id",
         type=int,
         default=None,
-        help="maximum user ID to process (exclusive)"
+        help="maximum user ID to process (default: no limit)"
     )
 
     parser.add_argument(
@@ -211,7 +210,7 @@ class Config:
         self.fsrs_optimizer_module_path: str = "../fsrs-optimizer/src/fsrs_optimizer/"
 
         # Device configuration
-        if torch.cuda.is_available() and self.model_name in [
+        if torch.cuda is not None and torch.cuda.is_available() and self.model_name in [
             "GRU",
             "GRU-P",
             "LSTM",
