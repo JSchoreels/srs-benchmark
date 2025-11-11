@@ -103,7 +103,7 @@ if __name__ == "__main__":
     models = (
         [
             (dev_mode_name, None, None),
-            ("FSRS-6-recency-inflection", None, None),
+            # ("FSRS-6-recency-inflection", None, None),
             ("FSRS-6-recency-old", None, None),
             # ("RWKV-P", 2762884, ""),
             # ("RWKV", 2762884, ""),

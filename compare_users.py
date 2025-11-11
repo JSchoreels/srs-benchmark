@@ -89,7 +89,7 @@ def logp_wilcox(x, y, correction=False):
 
 results_path = 'result'
 baseline_name = 'FSRS-6-recency-old.jsonl'  # FSRS-6-recency-old for excluding same-day reviews
-comparison_name = 'FSRS-6-recency-inflection.jsonl'
+comparison_name = 'FSRS-6-recency.jsonl'
 baseline_file = results_path + '/' + baseline_name
 comparison_file = results_path + '/' + comparison_name
 
@@ -98,7 +98,7 @@ comparison_file = results_path + '/' + comparison_name
 unweighted = True
 # for metric in ['RMSE(bins)', 'LogLoss']:
 for metric in ['LogLoss']:
-    max_user = 1000
+    max_user = 2000
 
     dictionary_metric = {}
     dictionary_sizes = {}
@@ -178,14 +178,27 @@ for metric in ['LogLoss']:
     # print(f'99th percentile LogLoss (baseline)={np.percentile(LogLoss_baseline, 99):.4f}')
     # print(f'99th percentile LogLoss (comparison)={np.percentile(LogLoss_comparison, 99):.4f}')
 
-    counter = 0
-    for n in range(len(LogLoss_baseline)):
-        if LogLoss_baseline[n] < LogLoss_comparison[n]:
-            counter += 1
+    counter = sum(1 for n in range(len(LogLoss_baseline)) if LogLoss_baseline[n] < LogLoss_comparison[n])
+    print(f'Percentage of users who would be better off using the baseline: '
+          f'{counter / len(LogLoss_baseline):.2%}'
+    )
 
-    print(f'Percentage of users who would be better off using the baseline: {100*counter/len(LogLoss_baseline):.1f}%')
+    for threshold in [0.01, 0.02, 0.03, 0.05, 0.10]:
+        similar = sum(1 for n in range(len(LogLoss_baseline)) if
+                      abs(LogLoss_baseline[n] - LogLoss_comparison[n]) / LogLoss_baseline[n] < threshold)
+        significant_improvement = sum(1 for n in range(len(LogLoss_baseline)) if
+                                      (LogLoss_baseline[n] - LogLoss_comparison[n]) / LogLoss_baseline[n] > threshold)
+        significant_worsening = sum(1 for n in range(len(LogLoss_baseline)) if
+                                    (LogLoss_comparison[n] - LogLoss_baseline[n]) / LogLoss_baseline[n] > threshold)
 
-    print('')
+        print(f'LogLoss Change Threshold: {threshold:.0%}')
+        print(f'  Similar results (<{threshold:.0%} change): {similar / len(LogLoss_baseline):.2%}')
+        print(
+            f'  Significant improvement (>{threshold:.0%} better): {significant_improvement / len(LogLoss_baseline):.2%}')
+        print(f'  Significant worsening (>{threshold:.0%} worse): {significant_worsening / len(LogLoss_baseline):.2%}')
+        print(f'  Improvement/Worsening ratio: {significant_improvement / significant_worsening:.2f}')
+
+    print()
     logp, which_one = logp_wilcox(LogLoss_baseline, LogLoss_comparison)
     if which_one == 0:
         print('Baseline is worse')
