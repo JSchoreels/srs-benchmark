@@ -77,7 +77,7 @@ class FSRS4(FSRS3):
         new_s = state[:, 0] * (
             1
             + torch.exp(self.w[8])
-            * (11 - state[:, 1])
+            * (21 - state[:, 1])
             * torch.pow(state[:, 0], -self.w[9])
             * (torch.exp((1 - r) * self.w[10]) - 1)
             * hard_penalty

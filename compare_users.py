@@ -203,7 +203,10 @@ for metric in ['LogLoss']:
         print(
             f'  Significant improvement (>{threshold:.0%} better): {significant_improvement / len(LogLoss_baseline):.2%}')
         print(f'  Significant worsening (>{threshold:.0%} worse): {significant_worsening / len(LogLoss_baseline):.2%}')
-        print(f'  Improvement/Worsening ratio: {significant_improvement / significant_worsening:.2f}')
+        if significant_worsening == 0:
+            print(f'  Improvement/Worsening ratio: inf')
+        else:
+            print(f'  Improvement/Worsening ratio: {significant_improvement / significant_worsening:.2f}')
 
     print()
     logp, which_one = logp_wilcox(LogLoss_baseline, LogLoss_comparison)
