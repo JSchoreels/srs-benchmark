@@ -13,6 +13,7 @@ Driver options are environment variables (worker processes re-import this module
   FI_USERS     comma-separated user ids, or a file with one id per line
   FI_CONFIGS   JSON list of {"name", "lr", "beta1", "beta2", "eps", "l2", and optionally
                "user_bias_lr", "card_bias_lr", "note_bias_lr", "again_lr", "curve"}
+               (curve 1: score the scheduling-time predictions instead of the instant ones)
   FI_PROCESSES worker processes (default 8)
   FI_REPLAY    path to the instant-replay executable
   FI_DATA      dataset path (default ../anki-revlogs-10k)
@@ -107,8 +108,12 @@ def _note_index(user_id, card_ids):
     )
 
 
-def _stream(user_id, dataset, w_list, testsets):
-    """The replay input that does not depend on the configs, as arrays."""
+def _stream(user_id, dataset, w_list, testsets, params=None):
+    """The replay input that does not depend on the configs, as arrays.
+
+    The stream starts at the first test set; `params` (one row per test set) defaults to
+    the FSRS-7 parameters of `w_list`.
+    """
     fold_start = [int(t["review_th"].min()) for t in testsets]
     rows = dataset[dataset["review_th"] >= fold_start[0]].sort_values("review_th")
     fold = np.searchsorted(fold_start, rows["review_th"].to_numpy(), side="right") - 1
@@ -132,10 +137,11 @@ def _stream(user_id, dataset, w_list, testsets):
         full = hist[c]
         assert np.array_equal(tensors[i].numpy(), full[: lengths[i]])
     hist = np.concatenate(hist) if hist else np.zeros((0, 2), dtype=np.float32)
-    params = np.array(
-        [create_model(config, w).w.detach().cpu().numpy() for w in w_list],
-        dtype=np.float32,
-    )
+    if params is None:
+        params = np.array(
+            [create_model(config, w).w.detach().cpu().numpy() for w in w_list],
+            dtype=np.float32,
+        )
     return {
         "params": params,
         "offsets": offsets,
@@ -162,6 +168,8 @@ def _write_input(path, st, configs):
         st["offsets"].astype("<i8").tofile(f)
         for k in ("hist_t", "hist_r", "card", "prefix", "delta_t", "y", "fold", "note"):
             st[k].astype("<f4" if k in ("hist_t", "delta_t") else "<i4").tofile(f)
+        # Anki day per row, for the start-of-day mode (older caches have none)
+        st.get("day", np.zeros(len(st["card"]))).astype("<i4").tofile(f)
 
 
 def _prepare(user_id):
@@ -224,8 +232,10 @@ def process_user(user_id):
         raw = np.fromfile(dst, dtype="<f8")
     review_th = st["review_th"]
     n = len(review_th)
-    preds = raw[: len(configs) * n].reshape(len(configs), n)
-    secs = raw[len(configs) * n :]
+    # per config: instant, scheduling-time and start-of-day predictions
+    modes = raw[: len(configs) * 3 * n].reshape(len(configs), 3, n)
+    preds = [m[int(c.get("curve", 0))] for c, m in zip(configs, modes)]
+    secs = raw[len(configs) * 3 * n :]
     pos = {r: i for i, r in enumerate(review_th)}
     idx = np.array([pos[r] for r in test_df["review_th"]])
     for c, pr, s in zip(configs, preds, secs):
