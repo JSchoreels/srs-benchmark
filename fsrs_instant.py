@@ -96,6 +96,8 @@ def _note_index(user_id, card_ids):
     card will be deleted later (the deleted-card leak).
     """
     path = Path(config.data_path) / "cards" / f"user_id={user_id}"
+    if not path.exists():  # a few users have no cards partition at all
+        return np.full(len(card_ids), -1, dtype=np.int32)
     cards = pd.read_parquet(path, columns=["card_id", "note_id"])
     note_of = dict(zip(cards["card_id"], cards["note_id"]))
     codes = {}
@@ -180,7 +182,9 @@ def _prepare(user_id):
         part = testset.copy()
         part["p"] = Collection(create_model(config, w), config).batch_predict(part)[0]
         parts.append(part)
-    test_df = pd.concat(parts).drop(columns=["tensor"])
+    # evaluate() needs only these; the history strings would dominate the cache size
+    keep = ["review_th", "card_id", "delta_t", "elapsed_days", "i", "rmse_bins_lapse", "y", "p"]
+    test_df = pd.concat(parts)[[c for c in keep if c in parts[0].columns]]
     prep = {
         "test_df": test_df,
         "w_list": w_list,
