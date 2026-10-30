@@ -165,3 +165,8 @@ rwkv/temp
 
 # wandb
 wandb/
+
+# FSRS-Instant driver: per-user fit cache and scratch runs
+runs/cache/
+runs/smoke*/
+runs/*.log
