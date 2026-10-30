@@ -1,11 +1,11 @@
-"""FSRS-Instant benchmark driver: FSRS-7 re-fitted online after every review.
+"""FSRS7-Instant benchmark driver: FSRS-7 re-fitted online after every review.
 
 Runs the published FSRS-7 protocol (--algo FSRS-7 --short --secs
 --equalize_test_with_non_secs) and, on the same per-fold parameters, replays each
-user's review stream through the fsrs-rs FSRS-Instant model
+user's review stream through the fsrs-rs FSRS7-Instant model
 (fsrs-rs/tools/instant-replay): every review in a test fold's time span is predicted
 with the current parameters, then one Adam step is taken on its outcome. A new fold
-restarts from that fold's fitted parameters, so FSRS-Instant = baseline + online updates
+restarts from that fold's fitted parameters, so FSRS7-Instant = baseline + online updates
 and the comparison is paired.
 
 Driver options are environment variables (worker processes re-import this module):

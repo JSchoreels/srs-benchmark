@@ -1,4 +1,4 @@
-"""FSRS-Instant from one shared FSRS-7 fit, on RWKV's train/test users (protocol B).
+"""FSRS7-Instant from one shared FSRS-7 fit, on RWKV's train/test users (protocol B).
 
 srs-benchmark's RWKV is trained on users 5000-10000 and tested on users 1-4999
 (rwkv/train_rwkv_config.toml, rwkv/get_result_config.toml). Here:
@@ -7,7 +7,7 @@ srs-benchmark's RWKV is trained on users 5000-10000 and tested on users 1-4999
           benchmark's own FSRS-7 trainer (script._fit_trainable_weights) on all their
           reviews pooled;
   replay  replays each test user's whole review stream from that shared set through
-          FSRS-Instant (no per-user fit) and scores the published test reviews (the
+          FSRS7-Instant (no per-user fit) and scores the published test reviews (the
           FSRS-7 --equalize_test_with_non_secs test folds, which are also RWKV's), in
           three modes: instant, scheduling time and start of day.
 

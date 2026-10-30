@@ -1,4 +1,4 @@
-"""Paired comparison of FSRS-Instant runs against FSRS-7 (fsrs_instant.py output).
+"""Paired comparison of FSRS7-Instant runs against FSRS-7 (fsrs_instant.py output).
 
 usage: python fsrs_instant_compare.py <run_dir> [--baseline FSRS-7] [--users file]
        [--exclude file] [--published result/FSRS-7-...jsonl]

@@ -7,7 +7,7 @@
 "lr": 0
 },
 {
-"name": "FSRS-Instant",
+"name": "FSRS7-Instant",
 "beta1": 0.9,
 "beta2": 0.999,
 "eps": 1e-08,
@@ -40,7 +40,7 @@
 "again_lr": 0.01
 },
 {
-"name": "curve-FSRS-Instant",
+"name": "curve-FSRS7-Instant",
 "beta1": 0.9,
 "beta2": 0.999,
 "eps": 1e-08,

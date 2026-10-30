@@ -1,4 +1,4 @@
-"""Protocol B table: FSRS-Instant from one shared fit vs published rows, on RWKV's test users.
+"""Protocol B table: FSRS7-Instant from one shared fit vs published rows, on RWKV's test users.
 
 usage: python fsrs_instant_shared_compare.py <run_dir>
 
@@ -24,9 +24,9 @@ PUBLISHED = [
 ]
 OURS = [
     ("FSRS-7 shared fit, no updates", "FSRS-7-shared"),
-    ("FSRS-Instant, instant", "FSRS-Instant"),
-    ("FSRS-Instant, scheduling time", "FSRS-Instant-scheduling"),
-    ("FSRS-Instant, start of day", "FSRS-Instant-start-of-day"),
+    ("FSRS7-Instant, instant", "FSRS7-Instant"),
+    ("FSRS7-Instant, scheduling time", "FSRS7-Instant-scheduling"),
+    ("FSRS7-Instant, start of day", "FSRS7-Instant-start-of-day"),
     ("parameters only lr 3e-4, instant", "params-only-lr3e-4"),
     ("parameters only lr 3e-4, scheduling time", "params-only-lr3e-4-scheduling"),
     ("parameters only lr 3e-4, start of day", "params-only-lr3e-4-start-of-day"),

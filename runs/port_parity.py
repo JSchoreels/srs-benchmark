@@ -17,7 +17,7 @@ users = [int(u) for u in sys.argv[1:]]
 import fsrs_instant as fi  # noqa: E402
 from models.fsrs_v7_instant import instant_predict  # noqa: E402
 
-CFG = [{"name": "FSRS-Instant", "beta1": 0.9, "beta2": 0.999, "eps": 1e-08, "lr": 0.001,
+CFG = [{"name": "FSRS7-Instant", "beta1": 0.9, "beta2": 0.999, "eps": 1e-08, "lr": 0.001,
         "user_bias_lr": 0.1, "again_lr": 0.01}]
 config = fi.config
 for user in users:

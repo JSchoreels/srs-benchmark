@@ -1,4 +1,4 @@
-4998 users (ids 1-4999), 170,847,460 test reviews; users whose test-review count differs from FSRS-7's: FSRS-7 shared fit, no updates 284, FSRS-Instant, instant 284, FSRS-Instant, scheduling time 284, FSRS-Instant, start of day 284, parameters only lr 3e-4, instant 284, parameters only lr 3e-4, scheduling time 284, parameters only lr 3e-4, start of day 284
+4998 users (ids 1-4999), 170,847,460 test reviews; users whose test-review count differs from FSRS-7's: FSRS-7 shared fit, no updates 284, FSRS7-Instant, instant 284, FSRS7-Instant, scheduling time 284, FSRS7-Instant, start of day 284, parameters only lr 3e-4, instant 284, parameters only lr 3e-4, scheduling time 284, parameters only lr 3e-4, start of day 284
 
 | Per user (README) | LogLoss↓ | RMSE(bins)↓ | AUC↑ |
 | --- | --- | --- | --- |
@@ -8,9 +8,9 @@
 | RWKV-Curve (published) | 0.3212 (-6.0%, [-0.0215, -0.0198]) | 0.0547 (-12.9%, [-0.0088, -0.0075]) | 0.7680 (+7.2%, [+0.0500, +0.0531]) |
 | RWKV-Instant (published) | 0.2791 (-18.3%, [-0.0647, -0.0608]) | 0.0252 (-59.9%, [-0.0386, -0.0366]) | 0.8320 (+16.1%, [+0.1130, +0.1182]) |
 | FSRS-7 shared fit, no updates | 0.3623 (+6.0%, [+0.0193, +0.0217]) | 0.0873 (+38.9%, [+0.0235, +0.0254]) | 0.7039 (-1.8%, [-0.0141, -0.0110]) |
-| FSRS-Instant, instant | 0.3093 (-9.5%, [-0.0340, -0.0312]) | 0.0363 (-42.3%, [-0.0274, -0.0258]) | 0.7780 (+8.6%, [+0.0595, +0.0637]) |
-| FSRS-Instant, scheduling time | 0.3549 (+3.8%, [+0.0121, +0.0141]) | 0.0621 (-1.1%, [-0.0012, -0.0002]) | 0.6998 (-2.3%, [-0.0183, -0.0150]) |
-| FSRS-Instant, start of day | 0.3353 (-1.9%, [-0.0074, -0.0056]) | 0.0480 (-23.6%, [-0.0155, -0.0142]) | 0.7390 (+3.2%, [+0.0209, +0.0243]) |
+| FSRS7-Instant, instant | 0.3093 (-9.5%, [-0.0340, -0.0312]) | 0.0363 (-42.3%, [-0.0274, -0.0258]) | 0.7780 (+8.6%, [+0.0595, +0.0637]) |
+| FSRS7-Instant, scheduling time | 0.3549 (+3.8%, [+0.0121, +0.0141]) | 0.0621 (-1.1%, [-0.0012, -0.0002]) | 0.6998 (-2.3%, [-0.0183, -0.0150]) |
+| FSRS7-Instant, start of day | 0.3353 (-1.9%, [-0.0074, -0.0056]) | 0.0480 (-23.6%, [-0.0155, -0.0142]) | 0.7390 (+3.2%, [+0.0209, +0.0243]) |
 | parameters only lr 3e-4, instant | 0.3264 (-4.5%, [-0.0162, -0.0147]) | 0.0507 (-19.2%, [-0.0126, -0.0116]) | 0.7495 (+4.6%, [+0.0317, +0.0345]) |
 | parameters only lr 3e-4, scheduling time | 0.3446 (+0.8%, [+0.0022, +0.0034]) | 0.0636 (+1.2%, [+0.0003, +0.0012]) | 0.7092 (-1.0%, [-0.0086, -0.0059]) |
 | parameters only lr 3e-4, start of day | 0.3315 (-3.0%, [-0.0110, -0.0097]) | 0.0531 (-15.5%, [-0.0102, -0.0093]) | 0.7378 (+3.0%, [+0.0201, +0.0227]) |
@@ -23,13 +23,13 @@
 | RWKV-Curve (published) | 0.3017 (-5.8%, [-0.0196, -0.0178]) | 0.0349 (-22.8%, [-0.0111, -0.0095]) | 0.7717 (+7.4%, [+0.0507, +0.0561]) |
 | RWKV-Instant (published) | 0.2735 (-14.6%, [-0.0491, -0.0448]) | 0.0149 (-67.0%, [-0.0314, -0.0292]) | 0.8228 (+14.5%, [+0.1000, +0.1091]) |
 | FSRS-7 shared fit, no updates | 0.3389 (+5.8%, [+0.0172, +0.0199]) | 0.0701 (+55.1%, [+0.0234, +0.0264]) | 0.6988 (-2.7%, [-0.0224, -0.0170]) |
-| FSRS-Instant, instant | 0.2960 (-7.6%, [-0.0259, -0.0229]) | 0.0231 (-48.9%, [-0.0230, -0.0212]) | 0.7763 (+8.1%, [+0.0537, +0.0623]) |
-| FSRS-Instant, scheduling time | 0.3308 (+3.3%, [+0.0091, +0.0120]) | 0.0414 (-8.4%, [-0.0045, -0.0031]) | 0.7068 (-1.6%, [-0.0145, -0.0089]) |
-| FSRS-Instant, start of day | 0.3172 (-1.0%, [-0.0045, -0.0019]) | 0.0320 (-29.1%, [-0.0140, -0.0122]) | 0.7429 (+3.4%, [+0.0209, +0.0283]) |
+| FSRS7-Instant, instant | 0.2960 (-7.6%, [-0.0259, -0.0229]) | 0.0231 (-48.9%, [-0.0230, -0.0212]) | 0.7763 (+8.1%, [+0.0537, +0.0623]) |
+| FSRS7-Instant, scheduling time | 0.3308 (+3.3%, [+0.0091, +0.0120]) | 0.0414 (-8.4%, [-0.0045, -0.0031]) | 0.7068 (-1.6%, [-0.0145, -0.0089]) |
+| FSRS7-Instant, start of day | 0.3172 (-1.0%, [-0.0045, -0.0019]) | 0.0320 (-29.1%, [-0.0140, -0.0122]) | 0.7429 (+3.4%, [+0.0209, +0.0283]) |
 | parameters only lr 3e-4, instant | 0.3048 (-4.8%, [-0.0166, -0.0146]) | 0.0319 (-29.3%, [-0.0140, -0.0125]) | 0.7586 (+5.6%, [+0.0363, +0.0440]) |
 | parameters only lr 3e-4, scheduling time | 0.3207 (+0.1%, [-0.0003, +0.0011]) | 0.0422 (-6.6%, [-0.0036, -0.0023]) | 0.7148 (-0.5%, [-0.0069, -0.0006]) |
 | parameters only lr 3e-4, start of day | 0.3091 (-3.5%, [-0.0122, -0.0103]) | 0.0336 (-25.7%, [-0.0123, -0.0109]) | 0.7480 (+4.1%, [+0.0260, +0.0332]) |
 
 FSRS-7 shared fit, no updates: 11.17 µs per replayed review, all three modes (306,391,575 replayed); data loading 97 µs per review
-FSRS-Instant, instant: 44.26 µs per replayed review, all three modes (306,391,575 replayed); data loading 97 µs per review
+FSRS7-Instant, instant: 44.26 µs per replayed review, all three modes (306,391,575 replayed); data loading 97 µs per review
 parameters only lr 3e-4, instant: 45.19 µs per replayed review, all three modes (306,391,575 replayed); data loading 97 µs per review

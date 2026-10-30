@@ -3,9 +3,9 @@
 usage: FI_CACHE=runs/cache python runs/parity_compare.py
 
 1. FSRS-7 (script.py) vs the published per-user FSRS-7 rows;
-2. FSRS-7-Instant (script.py --instant, Python port) vs the Rust replay of quick-300 on the
+2. FSRS7-Instant (script.py --instant, Python port) vs the Rust replay of quick-300 on the
    same users and fold fits: per-user LogLoss difference and per-review |p| difference;
-3. FSRS-7-Instant vs FSRS-7, both from script.py, with paired bootstrap 95% CIs.
+3. FSRS7-Instant vs FSRS-7, both from script.py, with paired bootstrap 95% CIs.
 """
 
 import os
@@ -29,7 +29,7 @@ INST = "FSRS-7-instant-short-secs-equalize_test_with_non_secs"
 base = load(PAR / "result" / f"{NAME}.jsonl")
 inst = load(PAR / "result" / f"{INST}.jsonl")
 pub = load(HERE / "result" / f"{NAME}.jsonl")
-rust = load(HERE / "runs" / "quick-300" / "FSRS-Instant.jsonl")
+rust = load(HERE / "runs" / "quick-300" / "FSRS7-Instant.jsonl")
 users = sorted(set(base) & set(inst) & set(pub) & set(rust))
 sizes = np.array([base[u]["size"] for u in users], dtype=float)
 print(f"{len(users)} users, {int(sizes.sum()):,} test reviews\n")
@@ -49,7 +49,7 @@ print(f"\nusers whose test-review count differs from the published row: "
       f"{sum(base[u]['size'] != pub[u]['size'] for u in users)}\n")
 
 # 2. Python port vs Rust replay
-CFG = [{"name": "FSRS-Instant", "beta1": 0.9, "beta2": 0.999, "eps": 1e-08, "lr": 0.001,
+CFG = [{"name": "FSRS7-Instant", "beta1": 0.9, "beta2": 0.999, "eps": 1e-08, "lr": 0.001,
         "user_bias_lr": 0.1, "again_lr": 0.01}]
 dll = np.abs(vals(inst, "LogLoss") - vals(rust, "LogLoss"))
 max_dp, n_cmp = 0.0, 0
@@ -65,11 +65,11 @@ for u in users:
     tsv = pd.read_csv(PAR / "evaluation" / INST / f"{u}.tsv", sep="\t", usecols=["review_th", "p"])
     d = np.abs(tsv["p"].to_numpy() - np.array([p_rs[r] for r in tsv["review_th"]]))
     max_dp, n_cmp = max(max_dp, float(d.max())), n_cmp + len(d)
-print("2. FSRS-7-Instant, Python port (script.py --instant) vs Rust replay, same fold fits\n")
+print("2. FSRS7-Instant, Python port (script.py --instant) vs Rust replay, same fold fits\n")
 print(f"per-user LogLoss: max |diff| {dll.max():.1e}, mean {dll.mean():.1e}; "
       f"per review: max |p diff| {max_dp:.1e} over {n_cmp:,} test reviews\n")
 
-print("3. FSRS-7-Instant vs FSRS-7, both from script.py\n")
+print("3. FSRS7-Instant vs FSRS-7, both from script.py\n")
 for scale, w in (("Per user (README)", np.ones_like(sizes)), ("Review-weighted", sizes)):
     print(f"| {scale} | " + " | ".join(METRICS) + " |\n| --- |" + " --- |" * len(METRICS))
     b = {m: vals(base, m) for m in METRICS}
@@ -79,4 +79,4 @@ for scale, w in (("Per user (README)", np.ones_like(sizes)), ("Review-weighted",
         v = vals(inst, m)
         d, (lo, hi) = boot_diff(b[m], v, w)
         cells.append(f"{wmean(v, w):.4f} ({100 * d / wmean(b[m], w):+.1f}%, [{lo:+.4f}, {hi:+.4f}])")
-    print("| FSRS-7-Instant | " + " | ".join(cells) + " |\n")
+    print("| FSRS7-Instant | " + " | ".join(cells) + " |\n")
