@@ -1,0 +1,192 @@
+[
+{
+"name": "lr0",
+"lr": 0,
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"l2": 0
+},
+{
+"name": "lr1e-4",
+"lr": 0.0001,
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"l2": 0
+},
+{
+"name": "lr3e-4",
+"lr": 0.0003,
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"l2": 0
+},
+{
+"name": "lr1e-3",
+"lr": 0.001,
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"l2": 0
+},
+{
+"name": "lr3e-3",
+"lr": 0.003,
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"l2": 0
+},
+{
+"name": "lr1e-2",
+"lr": 0.01,
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"l2": 0
+},
+{
+"name": "lr1e-3-b70",
+"lr": 0.001,
+"beta1": 0.7,
+"beta2": 0.98,
+"eps": 1e-08,
+"l2": 0
+},
+{
+"name": "lr3e-3-b70",
+"lr": 0.003,
+"beta1": 0.7,
+"beta2": 0.98,
+"eps": 1e-08,
+"l2": 0
+},
+{
+"name": "lr3e-3-l2e-2",
+"lr": 0.003,
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"l2": 0.01
+},
+{
+"name": "lr3e-3-l2e-1",
+"lr": 0.003,
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"l2": 0.1
+},
+{
+"name": "lr1e-3-ub0.003",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.001,
+"user_bias_lr": 0.003
+},
+{
+"name": "lr1e-3-ub0.01",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.001,
+"user_bias_lr": 0.01
+},
+{
+"name": "lr1e-3-ub0.03",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.001,
+"user_bias_lr": 0.03
+},
+{
+"name": "lr1e-3-cb0.02",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.001,
+"card_bias_lr": 0.02
+},
+{
+"name": "lr1e-3-cb0.05",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.001,
+"card_bias_lr": 0.05
+},
+{
+"name": "lr1e-3-cb0.1",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.001,
+"card_bias_lr": 0.1
+},
+{
+"name": "lr1e-3-nb0.02",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.001,
+"note_bias_lr": 0.02
+},
+{
+"name": "lr1e-3-nb0.05",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.001,
+"note_bias_lr": 0.05
+},
+{
+"name": "lr1e-3-nb0.1",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.001,
+"note_bias_lr": 0.1
+},
+{
+"name": "lr1e-3-ag0.001",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.001,
+"again_lr": 0.001
+},
+{
+"name": "lr1e-3-ag0.01",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.001,
+"again_lr": 0.01
+},
+{
+"name": "lr1e-3-all",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.001,
+"user_bias_lr": 0.01,
+"card_bias_lr": 0.05,
+"note_bias_lr": 0.05,
+"again_lr": 0.001
+},
+{
+"name": "lr0-all",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0,
+"user_bias_lr": 0.01,
+"card_bias_lr": 0.05,
+"note_bias_lr": 0.05,
+"again_lr": 0.001
+}
+]

@@ -27,12 +27,19 @@ def load(path):
 
 
 def boot_diff(a, b, w, n=10_000, seed=42):
+    ok = ~(np.isnan(a) | np.isnan(b))  # e.g. AUC is undefined for one-class users
+    a, b, w = a[ok], b[ok], w[ok]
     rng = np.random.default_rng(seed)
     idx = rng.integers(0, len(a), size=(n, len(a)))
     d = b - a
     ww = w[idx]
     means = (d[idx] * ww).sum(1) / ww.sum(1)
     return np.average(d, weights=w), np.percentile(means, [2.5, 97.5])
+
+
+def wmean(v, w):
+    ok = ~np.isnan(v)
+    return np.average(v[ok], weights=w[ok])
 
 
 def main():
@@ -77,21 +84,21 @@ def main():
         if pub:
             print(
                 "| FSRS-7 (published, same users) | "
-                + " | ".join(f"{np.average(vals(pub, m), weights=w):.4f}" for m in METRICS)
+                + " | ".join(f"{wmean(vals(pub, m), w):.4f}" for m in METRICS)
                 + " |"
             )
         print(
             f"| {args.baseline} (this run) | "
-            + " | ".join(f"{np.average(b[m], weights=w):.4f}" for m in METRICS)
+            + " | ".join(f"{wmean(b[m], w):.4f}" for m in METRICS)
             + " |"
         )
         for n in names:
             cells = []
             for m in METRICS:
                 v = vals(runs[n], m)
-                mean = np.average(v, weights=w)
+                mean = wmean(v, w)
                 d, (lo, hi) = boot_diff(b[m], v, w)
-                rel = 100 * d / np.average(b[m], weights=w)
+                rel = 100 * d / wmean(b[m], w)
                 cells.append(f"{mean:.4f} ({rel:+.2f}%, Δ {d:+.4f} [{lo:+.4f}, {hi:+.4f}])")
             print(f"| {n} | " + " | ".join(cells) + " |")
         print()

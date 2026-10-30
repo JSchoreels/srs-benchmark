@@ -1,0 +1,68 @@
+[
+{
+"name": "lr0",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0
+},
+{
+"name": "FSRS-Instant",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.001,
+"user_bias_lr": 0.1,
+"again_lr": 0.01
+},
+{
+"name": "params-only-lr3e-3",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.003
+},
+{
+"name": "user-bias-only-ub0.1",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0,
+"user_bias_lr": 0.1
+},
+{
+"name": "lr1e-3-ub0.3-ag0.01",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.001,
+"user_bias_lr": 0.3,
+"again_lr": 0.01
+},
+{
+"name": "curve-FSRS-Instant",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.001,
+"user_bias_lr": 0.1,
+"again_lr": 0.01,
+"curve": 1
+},
+{
+"name": "curve-lr3e-4",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.0003,
+"curve": 1
+},
+{
+"name": "curve-lr1e-4",
+"beta1": 0.9,
+"beta2": 0.999,
+"eps": 1e-08,
+"lr": 0.0001,
+"curve": 1
+}
+]
