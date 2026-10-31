@@ -12,19 +12,19 @@ Each test review is predicted with:
 Baseline: FSRS-7 with per-fold fsrs-rs fits (`runs/rs-300/FSRS-7.jsonl`). CIs are paired
 user-bootstrap 95% intervals on the difference. `python fsrs_refit_compare.py runs/refit-300 runs/rs-300 runs/quick-300`
 
-299 users (user 267 left out: its every-10 run did not finish, see below), 9.64M test reviews, per user:
+300 users, 9.76M test reviews, per user:
 
 | | LogLoss | vs per-fold fits | RMSE(bins) | fits per user | fit secs per user |
 | --- | --- | --- | --- | --- | --- |
-| FSRS-7, per-fold fits (fsrs-rs) | 0.3488 | | 0.0599 | 5 | |
-| re-fit daily, newest fit | 0.3387 | -2.9%, [-0.0121, -0.0082] | 0.0526 | 327 | 15.5 |
-| re-fit daily, scheduling time | 0.3486 | -0.1%, [-0.0018, +0.0016] | 0.0613 | 327 | 15.5 |
-| re-fit every 100, newest fit | 0.3354 | -3.9%, [-0.0159, -0.0114] | 0.0508 | 477 | 32.4 |
-| re-fit every 100, scheduling time | 0.3487 | -0.0%, [-0.0018, +0.0016] | 0.0614 | 477 | 32.4 |
-| re-fit every 10, newest fit | 0.3320 | -4.8%, [-0.0199, -0.0143] | 0.0495 | 4770 | 344.9 |
-| re-fit every 10, scheduling time | 0.3484 | -0.1%, [-0.0022, +0.0013] | 0.0613 | 4770 | 344.9 |
-| FSRS7-Instant, at review time | 0.3168 | -9.2%, [-0.0383, -0.0266] | 0.0377 | 5 | |
-| FSRS7-Instant, scheduling time (benchmark fits) | 0.3632 | +4.1%, [+0.0108, +0.0186] | 0.0613 | 5 | |
+| FSRS-7, per-fold fits (fsrs-rs) | 0.3485 | | 0.0598 | 5 | |
+| re-fit daily, newest fit | 0.3384 | -2.9%, [-0.0121, -0.0082] | 0.0525 | 328 | 15.5 |
+| re-fit daily, scheduling time | 0.3483 | -0.1%, [-0.0018, +0.0015] | 0.0612 | 328 | 15.5 |
+| re-fit every 100, newest fit | 0.3351 | -3.9%, [-0.0158, -0.0113] | 0.0507 | 481 | 32.5 |
+| re-fit every 100, scheduling time | 0.3483 | -0.0%, [-0.0018, +0.0016] | 0.0613 | 481 | 32.5 |
+| re-fit every 10, newest fit | 0.3317 | -4.8%, [-0.0197, -0.0143] | 0.0494 | 4807 | 344.9 |
+| re-fit every 10, scheduling time | 0.3481 | -0.1%, [-0.0022, +0.0014] | 0.0612 | 4807 | 344.9 |
+| FSRS7-Instant, at review time | 0.3164 | -9.2%, [-0.0383, -0.0263] | 0.0377 | 5 | |
+| FSRS7-Instant, scheduling time (benchmark fits) | 0.3629 | +4.1%, [+0.0108, +0.0182] | 0.0612 | 5 | |
 
 Fit secs are wall time per fit summed; the trainer used about 2 cores per process, so CPU
 time may be up to ~2x. Wall time at 8 processes: daily 20 min, every 100 31 min, every 10
@@ -38,6 +38,8 @@ Reading:
   gain comes from information that arrives after the card was scheduled.
 - Not run: re-fit before every review (~10x every 10, about 300 CPU-h for these users).
 
-User 267 (118,650 test reviews): every 100 took 66 s of fits; every other user's every-10
-run cost 9.7x (median, max 12.3x) its every-100 run, but 267 ran 3.5 h wall / 6.8 CPU-h
-before it was stopped at the 20:00 break. To investigate.
+User 267 (118,650 test reviews): in the 8-process run its every-10 replay ran 3.5 h wall /
+6.8 CPU-h before it was stopped at the 20:00 break. Rerun alone (`runs/refit-267/`, with a
+log line per 500 fits and per fit over 2 s) it took 6.5 min: 15,927 fits, 363 s of fits, none
+over 2 s, the slowest 0.04 s. So the data is not the cause; the first run hung for a reason
+we could not reproduce. Its rerun rows are appended to `runs/refit-300/refit-10-*.jsonl`.

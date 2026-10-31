@@ -89,8 +89,12 @@ fn main() {
                 model_version: ComputeParametersVersion::Fsrs7,
                 ..Default::default()
             });
-            fit_secs += t0.elapsed().as_secs_f64();
+            let secs = t0.elapsed().as_secs_f64();
+            fit_secs += secs;
             fits.push((k, params));
+            if secs > 2.0 || fits.len() % 500 == 0 {
+                eprintln!("fit {} at item {k}/{n_items}: {secs:.2} s, total {fit_secs:.0} s", fits.len());
+            }
         }
         let history: Vec<InstantReview> = span(k)
             .take(span(k).len() - 1)

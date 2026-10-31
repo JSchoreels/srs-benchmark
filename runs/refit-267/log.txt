@@ -1,0 +1,36 @@
+fit 500 at item 36578/190852: 0.01 s, total 3 s
+fit 1000 at item 41578/190852: 0.01 s, total 6 s
+fit 1500 at item 46578/190852: 0.01 s, total 11 s
+fit 2000 at item 51578/190852: 0.01 s, total 15 s
+fit 2500 at item 56578/190852: 0.01 s, total 20 s
+fit 3000 at item 61578/190852: 0.01 s, total 26 s
+fit 3500 at item 66578/190852: 0.01 s, total 32 s
+fit 4000 at item 71578/190852: 0.01 s, total 39 s
+fit 4500 at item 76578/190852: 0.01 s, total 46 s
+fit 5000 at item 81578/190852: 0.02 s, total 54 s
+fit 5500 at item 86578/190852: 0.02 s, total 62 s
+fit 6000 at item 91578/190852: 0.02 s, total 71 s
+fit 6500 at item 96578/190852: 0.02 s, total 80 s
+fit 7000 at item 101578/190852: 0.02 s, total 90 s
+fit 7500 at item 106578/190852: 0.02 s, total 101 s
+fit 8000 at item 111578/190852: 0.02 s, total 112 s
+fit 8500 at item 116578/190852: 0.02 s, total 123 s
+fit 9000 at item 121578/190852: 0.02 s, total 136 s
+fit 9500 at item 126578/190852: 0.03 s, total 148 s
+fit 10000 at item 131578/190852: 0.03 s, total 161 s
+fit 10500 at item 136578/190852: 0.03 s, total 175 s
+fit 11000 at item 141578/190852: 0.03 s, total 190 s
+fit 11500 at item 146578/190852: 0.03 s, total 205 s
+fit 12000 at item 151578/190852: 0.03 s, total 220 s
+fit 12500 at item 156578/190852: 0.03 s, total 237 s
+fit 13000 at item 161578/190852: 0.03 s, total 253 s
+fit 13500 at item 166578/190852: 0.04 s, total 270 s
+fit 14000 at item 171578/190852: 0.04 s, total 288 s
+fit 14500 at item 176578/190852: 0.04 s, total 307 s
+fit 15000 at item 181578/190852: 0.04 s, total 326 s
+fit 15500 at item 186578/190852: 0.04 s, total 346 s
+C:\Users\jonat\workspace\anki-rwkv\.venv\Lib\site-packages\sklearn\metrics\_classification.py:3424: FutureWarning: `y_pred` was renamed to `y_proba` in version 1.9 and will be removed in 1.11. Use `y_proba` instead.
+  warnings.warn(
+C:\Users\jonat\workspace\anki-rwkv\.venv\Lib\site-packages\sklearn\metrics\_classification.py:3424: FutureWarning: `y_pred` was renamed to `y_proba` in version 1.9 and will be removed in 1.11. Use `y_proba` instead.
+  warnings.warn(
+1/1 user 267
