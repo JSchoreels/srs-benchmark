@@ -17,6 +17,8 @@ Driver options are environment variables (worker processes re-import this module
   FI_PROCESSES worker processes (default 8)
   FI_REPLAY    path to the instant-replay executable
   FI_DATA      dataset path (default ../anki-revlogs-10k)
+  FI_FITTER    "rs": fit each fold with fsrs-rs's FSRS-7 trainer (fsrs7_rs.py, needs
+               FR_FIT) instead of the benchmark's
   FI_CACHE     optional directory caching each user's fit and stream, so other
                configs replay without re-fitting FSRS-7
 """
@@ -46,6 +48,7 @@ sys.argv = [
 ]
 import script  # noqa: E402  (parses the benchmark flags above at import)
 from data_loader import UserDataLoader  # noqa: E402
+from fsrs7_rs import rs_fit  # noqa: E402
 from models.model_factory import create_model  # noqa: E402
 from sklearn.model_selection import TimeSeriesSplit  # noqa: E402
 from utils import Collection, evaluate  # noqa: E402
@@ -73,9 +76,12 @@ def _fold_weights(dataset):
         test_set = dataset[dataset[f"{split_i}_test"]]
         assert train_set["partition"].nunique() <= 1
         try:
-            weights = script._fit_trainable_weights(
-                script._apply_recency_weighting(train_set.copy())
-            )
+            if os.environ.get("FI_FITTER") == "rs":  # fsrs-rs's FSRS-7 trainer
+                weights = rs_fit(train_set)[0]
+            else:
+                weights = script._fit_trainable_weights(
+                    script._apply_recency_weighting(train_set.copy())
+                )
         except Exception as e:
             if not script._is_inadequate_training_data_error(e):
                 raise

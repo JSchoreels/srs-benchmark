@@ -1,0 +1,1 @@
+[{"name": "FSRS7-Instant", "beta1": 0.9, "beta2": 0.999, "eps": 1e-08, "lr": 0.001, "user_bias_lr": 0.1, "again_lr": 0.01}]
