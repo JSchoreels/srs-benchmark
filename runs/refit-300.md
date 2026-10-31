@@ -27,7 +27,7 @@ user-bootstrap 95% intervals on the difference. `python fsrs_refit_compare.py ru
 | FSRS7-Instant, scheduling time (benchmark fits) | 0.3632 | +4.1%, [+0.0108, +0.0186] | 0.0613 | 5 | |
 
 Fit secs are wall time per fit summed; the trainer used about 2 cores per process, so CPU
-time may be up to ~2x. Wall time at 8 processes: daily 31 min, every 100 ~45 min, every 10
+time may be up to ~2x. Wall time at 8 processes: daily 20 min, every 100 31 min, every 10
 ~5 h 50 min (299 users).
 
 Reading:
