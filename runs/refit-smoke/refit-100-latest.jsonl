@@ -1,0 +1,1 @@
+{"metrics": {"RMSE": 0.390222, "LogLoss": 0.471088, "RMSE(bins)": 0.104899, "smECE": 0.050834, "AUC": 0.812712, "precision@90": 0.94437, "recall@90": 0.185322, "ICI": 0.045604, "MBE": 0.022863}, "user": 1, "size": 10620, "fits": 163, "fit_secs": 0.4543919, "total_secs": 2.102399399969727}
