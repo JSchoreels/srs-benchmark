@@ -73,6 +73,6 @@ def test_update_moves_prediction_towards_outcome():
     history, delta_t = [(0.0, 3), (1.0, 3), (3.2, 1), (0.01, 3), (2.0, 3)], 5.0
     for y in (0, 1):
         online = FSRS7Instant(CONFIG, list(FSRS7.init_w))
-        before = online.observe(history, delta_t, y, 0.0)
+        before = online.observe(history, delta_t, y)
         after = online.predict(history, delta_t)
         assert (after > before) == (y == 1)

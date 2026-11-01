@@ -8,10 +8,9 @@ row). The review stream from the fold's first test review on is then replayed in
 order: every review is predicted with the current parameters, then one Adam step is
 taken on its log loss (same-day and non-test reviews included), so the model never sees
 a review before predicting it. With a constant step size the parameters follow an
-exponentially recency-weighted fit. Two logit offsets, learned by SGD after every review,
-sit on top of the curve: a user bias, and a weight on ln(1 + number of Again ratings in
-the card's history). The offsets persist across folds; the parameters and Adam state
-restart at each fold's fit.
+exponentially recency-weighted fit. Nothing is added to FSRS-7: the prediction is FSRS-7's
+own retrievability with the current parameters. The parameters and Adam state restart at
+each fold's fit.
 
 The prediction for a review uses everything up to just before it, including other cards'
 reviews made since this card was last scheduled. Like RWKV-Instant, it is therefore a
@@ -41,8 +40,6 @@ LR = 1e-3
 BETA1 = 0.9
 BETA2 = 0.999
 EPS = 1e-8
-USER_BIAS_LR = 0.1
-AGAIN_LR = 0.01
 
 
 def _clamp(x: float, lo: float, hi: float) -> tuple[float, float]:
@@ -390,15 +387,14 @@ class FSRS7Instant:
     def predict(self, history, delta_t: float) -> float:
         return _Curve(self.w, self.s_min).forward(history, delta_t)[0]
 
-    def observe(self, history, delta_t: float, y: int, offset: float) -> float:
-        """p = sigmoid(logit(R) + offset) for a card with `history` [(elapsed time,
-        rating)] reviewed after `delta_t`; returns p as it was before the update."""
+    def observe(self, history, delta_t: float, y: int) -> float:
+        """p = R for a card with `history` [(elapsed time, rating)] reviewed after
+        `delta_t`; returns p as it was before the update."""
         curve = _Curve(self.w, self.s_min)
         r, tape = curve.forward(history, delta_t)
-        rv, m = _clamp(r, 1e-5, 1 - 1e-5)
-        p = 1.0 / (1.0 + math.exp(-(math.log(rv / (1.0 - rv)) + offset)))
-        # d(log loss)/d(logit) = p - y and d(logit R)/dR = 1 / (R (1 - R))
-        curve.backward(tape, m * (p - y) / (rv * (1.0 - rv)))
+        p, m = _clamp(r, 1e-5, 1 - 1e-5)
+        # d(log loss)/dR = (p - y) / (p (1 - p))
+        curve.backward(tape, m * (p - y) / (p * (1.0 - p)))
         self._adam_step(curve.g)
         return p
 
@@ -438,7 +434,6 @@ def instant_predict(
         np.searchsorted(fold_start, rows["review_th"].to_numpy(), side="right") - 1
     ).tolist()
     p_of = {}
-    user_bias, again_weight = 0.0, 0.0
     online: FSRS7Instant | None = None
     current = -1
     for k, review_th, tensor, delta_t, y in zip(
@@ -446,15 +441,7 @@ def instant_predict(
     ):
         if online is None or k != current:
             online, current = FSRS7Instant(config, weights[k]), k
-        history = tensor.tolist()
-        again = math.log1p(sum(1 for _, rating in history if rating == 1))
-        p = online.observe(
-            history, float(delta_t), int(y), user_bias + again_weight * again
-        )
-        err = p - int(y)
-        user_bias -= USER_BIAS_LR * err
-        again_weight -= AGAIN_LR * err * again
-        p_of[review_th] = p
+        p_of[review_th] = online.observe(tensor.tolist(), float(delta_t), int(y))
     out = []
     for testset in testsets:
         testset = testset.copy()
