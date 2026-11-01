@@ -1,0 +1,86 @@
+[
+ {
+  "name": "full-review",
+  "beta1": 0.9,
+  "beta2": 0.999,
+  "eps": 1e-08,
+  "lr": 0.001,
+  "user_bias_lr": 0.1,
+  "again_lr": 0.01,
+  "curve": 0
+ },
+ {
+  "name": "full-scheduling",
+  "beta1": 0.9,
+  "beta2": 0.999,
+  "eps": 1e-08,
+  "lr": 0.001,
+  "user_bias_lr": 0.1,
+  "again_lr": 0.01,
+  "curve": 1
+ },
+ {
+  "name": "full-start-of-day",
+  "beta1": 0.9,
+  "beta2": 0.999,
+  "eps": 1e-08,
+  "lr": 0.001,
+  "user_bias_lr": 0.1,
+  "again_lr": 0.01,
+  "curve": 2
+ },
+ {
+  "name": "params-only-review",
+  "beta1": 0.9,
+  "beta2": 0.999,
+  "eps": 1e-08,
+  "lr": 0.001,
+  "curve": 0
+ },
+ {
+  "name": "params-only-scheduling",
+  "beta1": 0.9,
+  "beta2": 0.999,
+  "eps": 1e-08,
+  "lr": 0.001,
+  "curve": 1
+ },
+ {
+  "name": "params-only-start-of-day",
+  "beta1": 0.9,
+  "beta2": 0.999,
+  "eps": 1e-08,
+  "lr": 0.001,
+  "curve": 2
+ },
+ {
+  "name": "bias-again-only-review",
+  "beta1": 0.9,
+  "beta2": 0.999,
+  "eps": 1e-08,
+  "lr": 0,
+  "user_bias_lr": 0.1,
+  "again_lr": 0.01,
+  "curve": 0
+ },
+ {
+  "name": "bias-again-only-scheduling",
+  "beta1": 0.9,
+  "beta2": 0.999,
+  "eps": 1e-08,
+  "lr": 0,
+  "user_bias_lr": 0.1,
+  "again_lr": 0.01,
+  "curve": 1
+ },
+ {
+  "name": "bias-again-only-start-of-day",
+  "beta1": 0.9,
+  "beta2": 0.999,
+  "eps": 1e-08,
+  "lr": 0,
+  "user_bias_lr": 0.1,
+  "again_lr": 0.01,
+  "curve": 2
+ }
+]

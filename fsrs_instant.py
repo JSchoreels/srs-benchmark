@@ -160,7 +160,16 @@ def _stream(user_id, dataset, w_list, testsets, params=None):
         "fold": fold.astype("<i4"),
         "note": _note_index(user_id, rows["card_id"].to_numpy()),
         "review_th": rows["review_th"].to_numpy(),
+        "day": _day(user_id, rows["review_th"].to_numpy()),
     }
+
+
+def _day(user_id, review_th):
+    """Anki day of each review (raw revlog day_offset), for the start-of-day mode."""
+    raw = pd.read_parquet(
+        Path(config.data_path) / "revlogs" / f"user_id={user_id}", columns=["day_offset"]
+    )["day_offset"].to_numpy()
+    return raw[review_th - 1]
 
 
 def _write_input(path, st, configs):
@@ -174,8 +183,7 @@ def _write_input(path, st, configs):
         st["offsets"].astype("<i8").tofile(f)
         for k in ("hist_t", "hist_r", "card", "prefix", "delta_t", "y", "fold", "note"):
             st[k].astype("<f4" if k in ("hist_t", "delta_t") else "<i4").tofile(f)
-        # Anki day per row, for the start-of-day mode (older caches have none)
-        st.get("day", np.zeros(len(st["card"]))).astype("<i4").tofile(f)
+        st["day"].astype("<i4").tofile(f)  # Anki day per row, for the start-of-day mode
 
 
 def _prepare(user_id):
@@ -184,7 +192,11 @@ def _prepare(user_id):
     path = Path(cache) / f"{user_id}.pkl" if cache else None
     if path is not None and path.exists():
         with open(path, "rb") as f:
-            return pickle.load(f)
+            prep = pickle.load(f)
+        st = prep["stream"]
+        if "day" not in st:  # caches written before the day was added
+            st["day"] = _day(user_id, st["review_th"])
+        return prep
     t0 = time.perf_counter()
     dataset = UserDataLoader(config).load_user_data(user_id)
     w_list, testsets = _fold_weights(dataset)
